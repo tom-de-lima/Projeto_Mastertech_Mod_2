@@ -30,10 +30,6 @@ def solicita_valor():
             print("Valor inválido. Insira apenas números.")
     return valor
 
-"""def solicita_valor():
-    valor = float(input("Insira o valor a ser convertido: "))
-    return valor"""
-
 # Solicita a moeda de entrada
 def solicita_moeda_entrada():
     moeda_entrada = input("Insira a moeda de entrada: ").upper()
