@@ -22,15 +22,24 @@ def exibe_moedas():
 
 # Solicita o valor a ser convertido
 def solicita_valor():
-    valor = float(input("Insira o valor a ser convertido: "))
+    while True:
+        try:
+            valor = float(input("Insira o valor a ser convertido: "))
+            break
+        except ValueError:
+            print("Valor inválido. Insira apenas números.")
     return valor
+
+"""def solicita_valor():
+    valor = float(input("Insira o valor a ser convertido: "))
+    return valor"""
 
 # Solicita a moeda de entrada
 def solicita_moeda_entrada():
     moeda_entrada = input("Insira a moeda de entrada: ").upper()
     while moeda_entrada not in MOEDAS:
         print("Moeda inválida. Tente novamente.")
-        moeda_entrada = input("Insira a moeda de entrada: ")
+        moeda_entrada = input("Insira a moeda de entrada: ").upper()
     return moeda_entrada
 
 # Solicita a moeda de origem
@@ -38,7 +47,7 @@ def solicita_moeda_origem():
     moeda_origem = input("Insira a moeda de origem: ").upper()
     while moeda_origem not in MOEDAS:
         print("Moeda inválida. Tente novamente.")
-        moeda_origem = input("Insira a moeda de origem: ")
+        moeda_origem = input("Insira a moeda de origem: ").upper()
     return moeda_origem
 
 # Realiza a conversão

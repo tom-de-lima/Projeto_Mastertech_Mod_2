@@ -1,0 +1,166 @@
+#               MÓDULOS IMPORTADOS
+
+import requests
+import json 
+from babel.numbers import format_currency
+from decimal import Decimal
+from datetime import datetime
+import pytz
+
+#               PARAMETRIZAÇÕES DA API
+
+# # esse link pode mudar se os donos da API mudarem
+cotacoes = requests.get("https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL,CNY-BRL")
+cotacoes_dic = cotacoes.json()
+
+#               VARIÁVEIS DA COTAÇÃO
+
+cotacao_dolar = Decimal(cotacoes_dic['USDBRL']['bid'])
+cotacao_dolar = format_currency(cotacao_dolar, 'BRL', locale='pt_BR')
+cotacao_euro = Decimal(cotacoes_dic['EURBRL']['bid'])
+cotacao_euro = format_currency(cotacao_euro, 'BRL', locale='pt_BR')
+cotacao_bitcoin = cotacoes_dic['BTCBRL']['bid']
+cotacao_bitcoin = format_currency(cotacao_bitcoin, 'BRL', locale='pt_BR')
+cotacao_yuan = cotacoes_dic['CNYBRL']['bid']
+cotacao_yuan = format_currency(cotacao_yuan, 'BRL', locale='pt_BR')
+
+#               PARAMETRIZAÇÕES DATA E HORA
+
+# Define o fuso horário do Brasil
+fuso_horario_brasil = pytz.timezone('America/Sao_Paulo')
+
+# Obtém a data e hora atual com o fuso horário do Brasil
+data_hora_brasil = datetime.now(fuso_horario_brasil)
+
+# Data e hora do Brasil
+data_atual = data_hora_brasil.strftime("%d/%m/%Y - %H:%M")
+
+#               INÍCIO DO PROGRAMA
+
+print('\n',cotacao_dolar,' dolar |',cotacao_euro, ' euro |',cotacao_yuan,' yuan |',cotacao_bitcoin,' bitcoin''\n')
+
+# OPÇÕES DE MOEDAS
+
+print(f'\033[1mCONVERSOR ONLINE\033[0m','\n')
+print('''Qual tipo de conversão deseja realizar?\n
+ 1 - Dolar
+ 2 - Euro
+ 3 - China
+ 4 - Bitcoin 
+ 5 - Para sair 
+''')
+
+
+while True:
+
+  # VALIDAÇÃO MOEDA DEFINIDA PELO USUÁRIO (ORIGEM)
+  try:
+   tipo_cotacao1 = int(input('Moeda Origem: '))
+  except ValueError:
+    print('\n''''Opção inválida! Escolha uma das opções abaixo:\n
+  1 - Dolar
+  2 - Euro
+  3 - China
+  4 - Bitcoin
+  5 - Para sair
+  ''''\n')
+    continue
+
+  if tipo_cotacao1 < 1 or tipo_cotacao1 >5:
+    print('\n''''Opção inválida!:/ Escolha uma das opções abaixo:\n
+  1 - Dolar
+  2 - Euro
+  3 - China
+  4 - Bitcoin
+  5 - Para sair
+  ''''\n')
+    continue   
+
+  elif tipo_cotacao1 == 5:
+    print('\n''Até breve!')
+    break 
+
+  # VALIDAÇÃO MOEDA DEFINIDA PELO USUÁRIO (DESTINO)
+  
+  try:
+   tipo_cotacao2 = int(input('Moeda Destino: '))
+  except ValueError:
+    print('\n''''Opção inválida! Escolha uma das opções abaixo:\n
+  1 - Dolar
+  2 - Euro
+  3 - China
+  4 - Bitcoin
+  5 - Para sair
+  ''''\n')
+    continue
+
+  if tipo_cotacao2 < 1 or tipo_cotacao2 >5:
+    print('\n''''Opção inválida! ** Escolha uma das opções abaixo:\n
+  1 - Dolar
+  2 - Euro
+  3 - China
+  4 - Bitcoin
+  5 - Para sair
+  ''''\n')
+    continue   
+
+  if tipo_cotacao2 == tipo_cotacao1:
+    print('\n''Opção inválida! Moeda de Origem e Destino têm que ser diferentes!''\n')
+    continue
+    
+
+  elif tipo_cotacao2 == 5:
+    print('\n''Até breve! :)')
+    break   
+
+# VALIDAÇÃO QUANTIDADE A SER CONVERTIDA
+
+  try:
+    quantidade_converter = int(input('Informe a quantia: '))
+  except ValueError:
+      print('\n''Opção inválida! Digite apenas números, ex.: 1 , 2, 30, 500, 1000...')
+      print('\n''''Tente novamente! Escolha uma das opções abaixo:\n
+      1 - Dolar
+      2 - Euro
+      3 - China
+      4 - Bitcoin
+      5 - Para sair
+      ''''\n')
+      continue
+
+  # CALCULO
+  def tipo_moeda_origem():
+      if tipo_cotacao1 == 1 :
+        return cotacao_dolar
+        
+      elif tipo_cotacao1 == 2:
+        return cotacao_euro
+      
+      elif tipo_cotacao1 == 3:
+        return cotacao_yuan
+      
+      elif tipo_cotacao1 == 4:
+        return cotacao_bitcoin
+        
+  res1 = tipo_moeda_origem()
+        
+    
+  def tipo_moeda_destino():
+      if tipo_cotacao2 == 1:
+        return cotacao_dolar
+    
+      elif tipo_cotacao2 == 2:
+        return cotacao_euro
+    
+      elif tipo_cotacao2 == 3:
+        return cotacao_yuan
+    
+      elif tipo_cotacao2 == 4:
+        return cotacao_bitcoin
+        
+  res2 = tipo_moeda_destino()
+
+  
+  
+  print(type(tipo_moeda_origem()))
+  print(type(tipo_moeda_destino()))
